@@ -6,6 +6,7 @@
  * Licenciado bajo el esquema Academic Free License version 3.0
  *
  * Ejercicio: Muebles de los Alpes
+ * 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
@@ -13,6 +14,7 @@ package com.losalpes.entities;
 
 /**
  * Clase de enumeración con los tipos de muebles en el sistema
+ * 
  */
 public enum TipoDocumento
 {

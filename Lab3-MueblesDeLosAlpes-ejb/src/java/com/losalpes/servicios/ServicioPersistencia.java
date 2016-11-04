@@ -30,10 +30,14 @@ public class ServicioPersistencia implements IServicioPersistenciaMockLocal,ISer
 
     
     /**
-     * La entidad encargada de persistir en la base de datos
+     * La entidad encargada de persistir en la base de datos ORACLE
      */
-    @PersistenceContext
+    @PersistenceContext(unitName = "Lab3-MueblesDeLosAlpes-ejbPU")
     private EntityManager entity;
+    
+    
+    
+    
 
     //-----------------------------------------------------------
     // Constructor

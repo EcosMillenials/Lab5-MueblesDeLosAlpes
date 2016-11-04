@@ -1,0 +1,21 @@
+
+base de datos: lab5
+
+-------------------------------------------------------------------
+---------------  CREACION TABLA  ----------------------------------
+-------------------------------------------------------------------
+CREATE TABLE TarjetaCreditoAlpes
+(
+    NUMERO_TARJETA INT PRIMARY KEY,
+    DOCUMENTO_TITULAR DOUBLE,
+    NOMBRE_TITULAR VARCHAR(50),
+    BANCO VARCHAR(50),
+    CUPO DOUBLE,
+    FECHA_EXPEDICION DATE,
+    FECHA_VENCIMIENTO DATE
+);
+
+INSERT INTO TARJETACREDITOALPES VALUES (2323223, 8.022194E7, 'Leonardo Valbuena', 'Banco de los Alpes', 200000000.0, '2016-11-01', '2018-09-20');
+
+-------------------------------------------------------------------
+-------------------------------------------------------------------

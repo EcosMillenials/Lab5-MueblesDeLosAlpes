@@ -15,6 +15,7 @@ package com.losalpes.servicios;
 import com.losalpes.entities.Mueble;
 import com.losalpes.entities.RegistroVenta;
 import com.losalpes.entities.Usuario;
+import com.losalpes.excepciones.CupoInsuficienteException;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.ejb.EJB;
@@ -36,6 +37,18 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
      */
      @EJB
     private IServicioPersistenciaMockLocal persistencia;
+     
+     /**
+      * Interface con referencia al servicio EJB con transaccionalidad CMT
+      */
+     @EJB
+     private IPersistenciaCMTLocal iPersistenciaCMTLocal;
+     
+     /**
+      * Interface con referencia al servicio EJB con transaccionalidad BMT
+      */
+     @EJB
+     private IPersistenciaBMTLocal iPersistenciaBMTLocal;
 
     /**
      * Lista con los muebles del carrito
@@ -117,20 +130,16 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
      * @param usuario Usuario que realiza la compra
      */
     @Override
-    public void comprar(Usuario usuario)
+    public void comprar(Usuario usuario) throws CupoInsuficienteException
     {    
-        Mueble mueble;
-        for (int i = 0; i < inventario.size(); i++)
-        {
-            mueble = inventario.get(i);
-            Mueble editar=(Mueble) persistencia.findById(Mueble.class, mueble.getReferencia());
-            editar.setCantidad(editar.getCantidad()-mueble.getCantidad());
-            RegistroVenta compra=new RegistroVenta(new Date(System.currentTimeMillis()), mueble, mueble.getCantidad(), null, usuario);
-            usuario.agregarRegistro(compra);
+        //implementacion de las dos formas de transaccion
+        
+//        iPersistenciaBMTLocal.comprar(usuario, inventario, precioTotalInventario);
+//        iPersistenciaBMTLocal.descontarCupoTarjeta(usuario.getDocumento(), precioTotalInventario);
+        
+        iPersistenciaCMTLocal.comprar(usuario, inventario, precioTotalInventario);
+        iPersistenciaCMTLocal.descontarCupoTarjeta(usuario.getDocumento(), precioTotalInventario);
 
-            persistencia.update(usuario);
-            persistencia.update(editar);
-        }
         limpiarLista();
     }
 

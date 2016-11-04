@@ -6,6 +6,7 @@
  * Licenciado bajo el esquema Academic Free License version 3.0
  *
  * Ejercicio: Muebles los Alpes
+ * 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
@@ -13,58 +14,63 @@ package com.losalpes.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * Clase que modela un registro de venta realizado por un cliente
+ * 
  */
 @Entity
+@NamedQuery(name="RegistroVenta.historialCompras", query="SELECT t FROM RegistroVenta t WHERE t.comprador.nombreCompleto = :nombre")
 public class RegistroVenta implements Serializable
 {
 
     //-----------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------
-
-    @Id
-    private long registro;
-
+    
     /**
      * Fecha en la que se vendió el producto
      */
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
+    @Id
     private Date fechaVenta;
 
     /**
      * Producto vendido
      */
-    @OneToOne
-    @JoinColumn(name="FK_PRODUCTO")
+    @ManyToOne
+    @JoinColumn(name="referencia")
+    @Id
     private Mueble producto;
+    
+    /**
+     * Usuario que compró el producto
+     */
+    @ManyToOne
+    @JoinColumn(name="comprador")
+    @Id
+    private Usuario comprador;
+
+    
 
     /**
      * Cantidad vendida del producto
      */
-    @Column(nullable=false)
     private int cantidad;
 
     /**
      * Ciudad en la que se vendió el producto
      */
-    @Column(nullable=false)
     private String ciudad;
 
-    /**
-     * Usuario que compró el producto
-     */
-    @ManyToOne
-    private Usuario comprador;
+    
 
     //-----------------------------------------------------------
     // Constructor
@@ -91,7 +97,7 @@ public class RegistroVenta implements Serializable
         this.fechaVenta = fechaVenta;
         this.producto = producto;
         this.cantidad = cantidad;
-        this.ciudad = ciudad;
+        this.ciudad = ciudad; 
         this.comprador = comprador;
     }
 
@@ -118,42 +124,6 @@ public class RegistroVenta implements Serializable
     }
 
     /**
-     * Devuelve la fecha en que se vendió el mueble
-     * @return fechaVenta Fecha de venta del mueble
-     */
-    public Date getFechaVenta()
-    {
-        return fechaVenta;
-    }
-
-    /**
-     * Modifica la fecha en que se vendió el mueble
-     * @param fechaVenta Nueva fecha de venta
-     */
-    public void setFechaVenta(Date fechaVenta)
-    {
-        this.fechaVenta = fechaVenta;
-    }
-
-    /**
-     * Devuelve el mueble adquirido
-     * @return producto Mueble adquirido
-     */
-    public Mueble getProducto()
-    {
-        return producto;
-    }
-
-    /**
-     * Modifica el mueble adquirido
-     * @param producto Nuevo mueble
-     */
-    public void setProducto(Mueble producto)
-    {
-        this.producto = producto;
-    }
-
-    /**
      * Devuelve la ciudad en dónde se realizó la venta
      * @return ciudad Ciudad
      */
@@ -171,42 +141,30 @@ public class RegistroVenta implements Serializable
         this.ciudad = ciudad;
     }
 
-    /**
-     * Devuelve el usuario que realizó la compra
-     * @return comprador Usuario que realizó la compra
-     */
-    public Usuario getComprador()
-    {
+    public Date getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
+    public Mueble getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Mueble producto) {
+        this.producto = producto;
+    }
+
+    public Usuario getComprador() {
         return comprador;
     }
 
-    /**
-     * Modifica el usuario que realizó la compra
-     * @param comprador Nuevo usuario
-     */
-    public void setComprador(Usuario comprador)
-    {
+    public void setComprador(Usuario comprador) {
         this.comprador = comprador;
     }
 
-    /**
-     * Devuelve el número único de registro de venta
-     * @return registro Registro de venta
-     */
-    public long getRegistro()
-    {
-        return registro;
-    }
-
-    /**
-     * Modifica el número único de registro de venta
-     * @param registro Nuevo número de registro
-     */
-    public void setRegistro(long registro)
-    {
-        this.registro = registro;
-    }
-
-
+    
 
 }

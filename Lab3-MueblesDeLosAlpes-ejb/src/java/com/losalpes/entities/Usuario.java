@@ -6,23 +6,25 @@
  * Licenciado bajo el esquema Academic Free License version 3.0
  *
  * Ejercicio: Muebles de los Alpes
+ * 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
 package com.losalpes.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 /**
  * Clase que representa un usuario del sistema
+ * 
  */
 @Entity
 public class Usuario implements Serializable
@@ -41,31 +43,26 @@ public class Usuario implements Serializable
     /**
      * Contraseña del usuario
      */
-    @Column(nullable=false)
     private String contraseña;
 
     /**
      * Tipo de usuario
      */
-    @Column(nullable=false)
     private TipoUsuario tipoUsuario;
 
     /**
      * Nombres y apellidos del usuario
      */
-    @Column(nullable=false)
     private String nombreCompleto;
 
     /**
      * Número de documento de identidad
      */
-    @Column(nullable=false)
     private long documento;
 
     /**
      * Tipo de documento
      */
-    @Column(nullable=false)
     private TipoDocumento tipoDocumento;
 
     /**
@@ -81,39 +78,35 @@ public class Usuario implements Serializable
     /**
      * Ciudad de residencia del usuario
      */
-    @OneToOne
-    @JoinColumn(name="FK_CIUDAD")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="ciudad")
     private Ciudad ciudad;
 
     /**
      * Dirección de residencia del usuario
      */
-    @Column(nullable=false)
     private String direccion;
 
     /**
      * Profesión del usuario
-     */
-    @Column(nullable=false)
-    private Profesion profesion;
+     */    
+    private String profesion;
 
     /**
      * Correo electrónico del usuario
      */
-    @Column(nullable=false,unique=true)
     private String correo;
 
     /**
      * Indica si el mueble fue seleccionado
      */
-    @Transient
     private boolean seleccion;
 
     /**
      * Devuelve un lista con todos las compras del usuario
      */
     @OneToMany(mappedBy="comprador")
-    private List<RegistroVenta>compras;
+    private List<RegistroVenta> compras;
 
     //-----------------------------------------------------------
     // Constructores
@@ -124,6 +117,7 @@ public class Usuario implements Serializable
      */
     public Usuario()
     {
+        compras = new ArrayList<RegistroVenta>();
 
     }
 
@@ -138,7 +132,20 @@ public class Usuario implements Serializable
         this.login = login;
         this.contraseña = contraseña;
         this.tipoUsuario = tipoUsuario;
-
+        this.compras=new ArrayList<RegistroVenta>();
+    }
+    
+    /**
+     * 
+     * @param login
+     * @param documento
+     * @param tipoUsuario 
+     */
+    public Usuario(String login, long documento) {
+        this.login = login;
+        this.documento = documento;
+        this.compras=new ArrayList<RegistroVenta>();
+        
     }
 
     //-----------------------------------------------------------
@@ -293,7 +300,7 @@ public class Usuario implements Serializable
      * Devuelve la profesión del usuario
      * @return profesion Profesión del usuario
      */
-    public Profesion getProfesion()
+    public String getProfesion()
     {
         return profesion;
     }
@@ -302,7 +309,7 @@ public class Usuario implements Serializable
      * Modifica la profesión del usuario
      * @param profesion Nueva profesión
      */
-    public void setProfesion(Profesion profesion)
+    public void setProfesion(String profesion)
     {
         this.profesion = profesion;
     }
@@ -403,6 +410,10 @@ public class Usuario implements Serializable
     public void setSeleccion(boolean seleccion)
     {
         this.seleccion = seleccion;
+    }
+    
+    public String toString() {
+        return this.nombreCompleto;
     }
 
 }

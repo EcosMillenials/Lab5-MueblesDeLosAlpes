@@ -6,20 +6,20 @@
  * Licenciado bajo el esquema Academic Free License version 3.0
  *
  * Ejercicio: Muebles los Alpes
+ * 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
 package com.losalpes.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  * Clase que modela un ìtem de experiencia de vendedor.
+ * 
  */
 @Entity
 public class ExperienciaVendedor
@@ -33,32 +33,33 @@ public class ExperienciaVendedor
      * Identificador del item de experiencia.
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
 
     /**
      * Nombre de la empresa que ceritifica la experiencia laboral.
      */
-    @Column(nullable=false)
     private String nombreEmpesa;
 
     /**
      * Cargo que el empleado ocupó en la empresa.
      */
-    @Column(nullable=false)
     private String cargo;
 
     /**
      * Descripción de las funciones del cargo.
      */
-    @Column(nullable=false)
     private String descripcion;
 
     /**
      * Año de terminación del vínculo laboral.
      */
-    @Column(nullable=false)
     private int ano;
+    
+    @ManyToOne
+    @JoinColumn(name="id_vendedor")
+    private Vendedor vendedor;
+
+    
 
     //-----------------------------------------------------------
     // Constructores
@@ -183,6 +184,14 @@ public class ExperienciaVendedor
     public void setNombreEmpesa(String nombreEmpesa)
     {
         this.nombreEmpesa = nombreEmpesa;
+    }
+    
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
     }
 
 }

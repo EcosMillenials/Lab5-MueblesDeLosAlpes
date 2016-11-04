@@ -6,21 +6,20 @@
  * Licenciado bajo el esquema Academic Free License version 3.0
  *
  * Ejercicio: Muebles de los Alpes
+ * 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 package com.losalpes.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
  * Clase que modela un vendedor dentro del sistema.
+ * 
  */
 @Entity
 public class Vendedor
@@ -34,43 +33,37 @@ public class Vendedor
      * Número de identificación del vendedor
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private long id;
 
     /**
      * Nombres del vendedor.
      */
-    @Column(nullable=false)
     private String nombres;
 
     /**
      * Apellidos del vendedor.
      */
-    @Column(nullable=false)
     private String apellidos;
 
     /**
      * Lista de ítems de experiencia del vendedor.
      */
-    @OneToMany
+    @OneToMany(mappedBy="vendedor")
     private List<ExperienciaVendedor> experiencia;
 
     /**
      * Salario del vendedor.
      */
-    @Column(nullable=false)
     private double salario;
 
     /**
      * Comisión por ventas para el vendedor.
      */
-    @Column(nullable=false)
     private double comisionVentas;
 
     /**
      * Perfil de vendedor.
      */
-    @Column(nullable=false)
     private String perfil;
 
     /**

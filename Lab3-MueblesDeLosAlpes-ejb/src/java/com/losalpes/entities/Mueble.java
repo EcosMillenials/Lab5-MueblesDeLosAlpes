@@ -6,21 +6,19 @@
  * Licenciado bajo el esquema Academic Free License version 3.0
  *
  * Ejercicio: Muebles de los Alpes
+ * 
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
 
 package com.losalpes.entities;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 
 /**
  * Clase que representa la información de un mueble en el sistema
+ * 
  */
 @Entity
 public class Mueble implements Serializable
@@ -34,31 +32,26 @@ public class Mueble implements Serializable
      * Referencia que identifica el modelo del mueble en el sistema.
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private long referencia;
 
     /**
      * Nombre del mueble.
      */
-    @Column(nullable=false)
     private String nombre;
 
     /**
      * Descripción del mueble.
      */
-    @Column(nullable=false)
     private String descripcion;
 
     /**
      * Tipo de mueble.
      */
-    @Column(nullable=false)
-    private TipoMueble tipo;
+    private String tipo;
 
     /**
      * Precio del mueble
      */
-    @Column(nullable=false)
     private double precio;
 
     /**
@@ -69,13 +62,11 @@ public class Mueble implements Serializable
     /**
      * Cantidad de items
      */
-    @Column(nullable=false)
     private int cantidad;
 
     /**
      * Indica si el mueble fue seleccionado
      */
-    @Transient
     private boolean seleccion;
 
     //-----------------------------------------------------------
@@ -103,7 +94,7 @@ public class Mueble implements Serializable
         this.referencia = referencia;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.tipo = tipo;
+        this.tipo = tipo.name();
         this.cantidad=cantidad;
         this.imagen=imagen;
         this.precio=precio;
@@ -170,7 +161,7 @@ public class Mueble implements Serializable
      * Devuelve el tipo de mueble
      * @return tipo Tipo de mueble
      */
-    public TipoMueble getTipo()
+    public String getTipo()
     {
         return tipo;
     }
@@ -179,7 +170,7 @@ public class Mueble implements Serializable
      * Modifica el tipo de mueble
      * @param tipo Nuevo tipo de mueble
      */
-    public void setTipo(TipoMueble tipo)
+    public void setTipo(String tipo)
     {
         this.tipo = tipo;
     }

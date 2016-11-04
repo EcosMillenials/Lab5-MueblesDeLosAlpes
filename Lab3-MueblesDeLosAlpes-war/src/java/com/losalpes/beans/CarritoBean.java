@@ -13,15 +13,21 @@
 package com.losalpes.beans;
 
 import com.losalpes.entities.Mueble;
+import com.losalpes.entities.RegistroVenta;
 import com.losalpes.entities.Usuario;
+import com.losalpes.excepciones.CupoInsuficienteException;
 import com.losalpes.servicios.IServicioCarritoMockLocal;
 import com.losalpes.servicios.IServicioCatalogoMockLocal;
 import com.losalpes.servicios.ServicioCarritoMock;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.DragDropEvent;
@@ -118,16 +124,25 @@ public class CarritoBean implements Serializable
      */
     public void comprar()
     {
-        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().containsKey("loginBean"))
-        {
+        if (FacesContext.getCurrentInstance().getExternalContext().getSessionMap().containsKey("loginBean")) {
             LoginBean sessionSecurity = (LoginBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginBean");
             Usuario user = sessionSecurity.getSesion();
-            if (user != null)
-            {
-                carrito.comprar(user);
+
+            try {
+                if (user != null) {
+                    carrito.comprar(user);
+                }
+                destroyBean();
+
+            } catch (CupoInsuficienteException ex) {
+                //se muestra validacion de cupo en pantalla
+                user.setCompras(new ArrayList<RegistroVenta>());
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(
+                        FacesMessage.SEVERITY_ERROR, "Error!", ex.getMensaje()));
             }
-            destroyBean();
+
         }
+        
     }
 
     /**

@@ -14,6 +14,7 @@ package com.losalpes.servicios;
 
 import com.losalpes.entities.Mueble;
 import com.losalpes.entities.Usuario;
+import com.losalpes.excepciones.CupoInsuficienteException;
 import java.util.ArrayList;
 
 /**
@@ -50,8 +51,9 @@ public interface IServicioCarritoMockRemote
     /**
      * Realiza la compra de los items que se encuentran en el carrito
      * @param usuario Usuario que realiza la compra
+     * @throws com.losalpes.excepciones.CupoInsuficienteException
      */
-    public void comprar(Usuario usuario);
+    public void comprar(Usuario usuario) throws CupoInsuficienteException;
 
     /**
      * Agrega un nuevo mueble al carro de compras
